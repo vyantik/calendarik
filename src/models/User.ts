@@ -30,6 +30,10 @@ User.init({
     allowNull: false,
     defaultValue: 0
   },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: "User"
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
