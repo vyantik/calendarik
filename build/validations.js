@@ -1,0 +1,18 @@
+import { body } from 'express-validator';
+export const loginValidation = [
+    body('email', 'Неверный формат почты').isEmail(),
+    body('password', 'Пароль должен быть минимум 5 символов').isLength({ min: 5 })
+];
+export const registerValidation = [
+    body('email', 'Неверный формат почты').isEmail(),
+    body('password', 'Пароль должен быть минимум 5 символов').isLength({ min: 5 }),
+    body('full_name', 'Укажите имя').isLength({ min: 3 }),
+    body('avatar_url', 'Неверная ссылка на аватарку').optional().isURL(),
+];
+export const eventValidation = [
+    body('title', 'Введите название').isString(),
+    body('event_date', 'Введите дату').isDate(),
+    body('description', 'Введите описание').optional().isString(),
+    body('image_url', 'Неверная ссылка на картинку').optional().isURL(),
+];
+//# sourceMappingURL=validations.js.map
