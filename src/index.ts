@@ -12,9 +12,11 @@ import cli from "cli-color";
 
 import * as UserController from "./controllers/UserController.js";
 import * as EventsController from "./controllers/EventsController.js";
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.post("/auth/login", loginValidation, UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);

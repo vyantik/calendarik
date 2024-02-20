@@ -22,6 +22,7 @@ export const register = async (req, res) => {
         }, 'secret123', {
             expiresIn: '30d'
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, ...userData } = user.dataValues;
         return res.status(201).json({
             ...userData,
@@ -57,6 +58,7 @@ export const login = async (req, res) => {
         }, 'secret123', {
             expiresIn: '30d'
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, ...userData } = user.dataValues;
         return res.json({
             ...userData,
@@ -77,6 +79,7 @@ export const getMe = async (req, res) => {
                 message: 'Пользователь не найден',
             });
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, ...userData } = user.dataValues;
         return res.json(userData);
     }
