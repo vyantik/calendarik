@@ -1,7 +1,11 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../db.js';
 
-class User extends Model {}
+class User extends Model {
+    email!: string;
+    id!: number;
+    isActivated!: boolean;
+};
 
 User.init({
   id: {
@@ -23,6 +27,13 @@ User.init({
     allowNull: false
   },
   avatar_url: {
+    type: DataTypes.STRING
+  },
+  is_activated: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
+  },
+  activation_link: {
     type: DataTypes.STRING
   },
   points: {
@@ -50,6 +61,6 @@ User.init({
   tableName: 'users'
 });
 
-User.sync();
+User.sync({ force: true });
 
 export default User;

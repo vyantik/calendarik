@@ -2,32 +2,16 @@ import { validationResult } from "express-validator";
 import User from '../models/User.js';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import UserService from "../services/user-service.js";
 export const register = async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array());
         }
-        const password = req.body.password;
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
-        const user = await User.create({
-            email: req.body.email,
-            full_name: req.body.full_name,
-            avatar_url: req.body.avatar_url,
-            password_hash: hash
-        });
-        const token = jwt.sign({
-            id: user.dataValues.id
-        }, 'secret123', {
-            expiresIn: '30d'
-        });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password_hash, ...userData } = user.dataValues;
-        return res.status(201).json({
-            ...userData,
-            token,
-        });
+        const userData = await UserService.registration(req);
+        res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+        return res.status(201).json(userData);
     }
     catch (err) {
         return res.status(500).json({
@@ -58,7 +42,6 @@ export const login = async (req, res) => {
         }, 'secret123', {
             expiresIn: '30d'
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, ...userData } = user.dataValues;
         return res.json({
             ...userData,
@@ -79,9 +62,38 @@ export const getMe = async (req, res) => {
                 message: 'Пользователь не найден',
             });
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, ...userData } = user.dataValues;
         return res.json(userData);
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: 'Нет доступа'
+        });
+    }
+};
+export const activate = async (req, res) => {
+    try {
+        res.clearCookie('refreshToken');
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: 'Нет доступа'
+        });
+    }
+};
+export const refresh = async (req, res) => {
+    try {
+        res.clearCookie('refreshToken');
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: 'Нет доступа'
+        });
+    }
+};
+export const logout = async (req, res) => {
+    try {
+        res.clearCookie('refreshToken');
     }
     catch (error) {
         return res.status(500).json({
