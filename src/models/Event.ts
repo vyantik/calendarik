@@ -13,17 +13,17 @@ Event.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    image_url: {
-        type: DataTypes.STRING,
+    start: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    end: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    resource: {
+        type: DataTypes.JSON,
         allowNull: true
-    },
-    event_start: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    event_end: {
-        type: DataTypes.DATE,
-        allowNull: false
     },
     description: {
         type: DataTypes.STRING,
@@ -50,7 +50,7 @@ Event.init({
     tableName: 'events'
 });
 
-//Event.sync({ force: true });
-Event.sync();
+Event.sync({ force: true });
+//Event.sync();
 
 export default Event;

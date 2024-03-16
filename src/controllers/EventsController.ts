@@ -16,8 +16,9 @@ export const createEvent = async (
 		
 		const event = await Event.create({
 			title: req.body.title,
-			event_start: req.body.event_start,
-			event_end: req.body.event_end,
+			start: req.body.start,
+			end: req.body.end,
+			resource: req.body.resource,
 			description: req.body.description,
 		});
 
@@ -135,9 +136,10 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 		const event = await Event.update(
 			{
 				title: req.body.title,
-				event_date: req.body.event_date,
+				start: req.body.start,
+				end: req.body.end,
+				resource: req.body.resource,
 				description: req.body.description,
-				image_url: req.body.image_url,
 			},
 			{
 				where: { id: req.params.id },
