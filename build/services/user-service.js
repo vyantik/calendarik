@@ -1,5 +1,4 @@
 import { v4 } from 'uuid';
-import MailService from "../services/mail-service.js";
 import TokenService from "../services/token-service.js";
 import UserDto from "../utils/user-dto.js";
 import User from '../models/User.js';
@@ -24,8 +23,37 @@ class UserService {
         const userDto = new UserDto(user);
         const tokens = await TokenService.generateTokens({ ...userDto });
         await TokenService.saveToken(userDto.id, tokens.refreshToken);
-        await MailService.sendActivationMail(req.body.email, activation_link);
         return { ...tokens, user: userDto };
+    }
+    static async refresh(refreshToken) {
+        if (!refreshToken) {
+            throw Error('нет токена');
+        }
+        const userData = TokenService.validateRefreshToken(refreshToken);
+        const tokenFromDb = await TokenService.findToken(refreshToken);
+        if (!userData || !tokenFromDb) {
+            throw Error('нет токена2');
+        }
+        const user = await User.findOne({ where: { id: userData.id } });
+        const userDto = new UserDto(user);
+        const tokens = await TokenService.generateTokens({ ...userDto });
+        await TokenService.saveToken(userDto.id, tokens.refreshToken);
+        return { ...tokens, user: userDto };
+    }
+    static async activate(activationLink) {
+        const user = await User.findOne({ where: { activation_link: activationLink } });
+        if (!user) {
+            throw new Error('Некорректная ссылка активации');
+        }
+        await User.update({
+            is_activated: true,
+        }, {
+            where: { id: user.id }
+        });
+    }
+    static async logout(refreshToken) {
+        const token = await TokenService.removeToken(refreshToken);
+        return token;
     }
 }
 export default UserService;

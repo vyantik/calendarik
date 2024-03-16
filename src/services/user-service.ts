@@ -1,5 +1,4 @@
 import {v4} from 'uuid';
-import MailService from "../services/mail-service.js";
 import TokenService from "../services/token-service.js";
 import UserDto from "../utils/user-dto.js";
 import User from '../models/User.js';

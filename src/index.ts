@@ -15,12 +15,17 @@ import cli from "cli-color";
 
 import * as UserController from "./controllers/UserController.js";
 import * as EventsController from "./controllers/EventsController.js";
+import authChecker from "./utils/auth-checker.js";
 
 dotenv.config({path: 'src/utils/.env'});
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173'
+}));
 app.use(cookieParser());
+
 
 app.post("/auth/login", loginValidation, UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);
@@ -31,10 +36,10 @@ app.get("/auth/me", checkAuth, UserController.getMe);
 
 app.get("/events", EventsController.getAll);
 app.get("/events/:id", EventsController.getOne);
-app.delete("/events/:id", checkAuth, EventsController.remove);
-app.patch("/events/:id",checkAuth, eventValidation, EventsController.update);
-app.post("/events/:id/signup", checkAuth, EventsController.signUp);
-app.post("/events", checkAuth, eventValidation, EventsController.createEvent);
+app.delete("/events/:id", authChecker, EventsController.remove);
+app.patch("/events/:id",authChecker, eventValidation, EventsController.update);
+app.post("/events/:id/signup", EventsController.signUp);
+app.post("/events", authChecker, eventValidation, EventsController.createEvent);
 
 app.listen(process.env.PORT, (err?: Error): void => {
 	if (err) {

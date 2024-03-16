@@ -1,7 +1,6 @@
 import { validationResult } from "express-validator";
 import User from '../models/User.js';
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import UserService from "../services/user-service.js";
 import UserDto from "../utils/user-dto.js";
@@ -104,6 +103,7 @@ export const refresh = async (req: Request, res: Response): Promise<Response> =>
 
         return res.json(userData);
     } catch (error) {
+        
         return res.status(500).json({
             message: 'Нет доступа',
             error

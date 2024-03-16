@@ -1,23 +1,28 @@
 import nodemailer from 'nodemailer';
 class MailService {
-    constructor() {
-        this.transporter = nodemailer.createTransport({
-            host: process.env.p,
-            port: 587,
-            secure: false,
-            auth: {
-                user: '',
-                password: 'rootroot'
-            }
-        });
-    }
     static async sendActivationMail(to, link) {
         await this.transporter.sendMail({
-            from: 'damn10587@gmail.com',
+            from: 'damn10586@mail.com',
             to,
-            subject: 'Активация аккаунта: ' + process.env.API_URL
+            subject: 'Активация аккаунта: ' + process.env.API_URL,
+            text: '',
+            html: `
+                <div>
+                    <h1>Для активации перейдите по ссылке</h1>
+                    <a href="${link}>${link}</a>
+                </div>
+            `
         });
     }
 }
+MailService.transporter = nodemailer.createTransport({
+    host: "smtp.mail.ru",
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'damn10586@mail.ru',
+        pass: 'yqFrtrd2pQbvAMzb9iL3'
+    }
+});
 export default MailService;
 //# sourceMappingURL=mail-service.js.map

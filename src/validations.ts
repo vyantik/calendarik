@@ -14,7 +14,5 @@ export const registerValidation = [
 
 export const eventValidation = [
     body('title', 'Введите название').isString(),
-    body('event_date', 'Введите дату').isDate(),
     body('description', 'Введите описание').optional().isString(),
-    body('image_url', 'Неверная ссылка на картинку').optional().isURL(),
 ];

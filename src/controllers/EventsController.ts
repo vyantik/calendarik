@@ -13,12 +13,12 @@ export const createEvent = async (
 			res.status(400).json(errors.array());
 			return;
 		}
-
+		
 		const event = await Event.create({
 			title: req.body.title,
-			event_date: req.body.event_date,
+			event_start: req.body.event_start,
+			event_end: req.body.event_end,
 			description: req.body.description,
-			image_url: req.body.image_url,
 		});
 
 		res.status(201).json({

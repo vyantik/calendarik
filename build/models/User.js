@@ -27,7 +27,7 @@ User.init({
     },
     is_activated: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: true
     },
     activation_link: {
         type: DataTypes.STRING

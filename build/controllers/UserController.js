@@ -1,8 +1,9 @@
 import { validationResult } from "express-validator";
 import User from '../models/User.js';
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
 import UserService from "../services/user-service.js";
+import UserDto from "../utils/user-dto.js";
+import TokenService from "../services/token-service.js";
 export const register = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -15,7 +16,7 @@ export const register = async (req, res) => {
     }
     catch (err) {
         return res.status(500).json({
-            message: 'Не удалось зарегистрироваться'
+            message: 'Не удалось зарегистрироваться',
         });
     }
 };
@@ -37,16 +38,11 @@ export const login = async (req, res) => {
                 message: 'Неверный логин или пароль'
             });
         }
-        const token = jwt.sign({
-            id: user.dataValues.id
-        }, 'secret123', {
-            expiresIn: '30d'
-        });
-        const { password_hash, ...userData } = user.dataValues;
-        return res.json({
-            ...userData,
-            token,
-        });
+        const userDto = new UserDto(user);
+        const tokens = await TokenService.generateTokens({ ...userDto });
+        await TokenService.saveToken(userDto.id, tokens.refreshToken);
+        res.cookie('refreshToken', tokens.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+        return res.status(200).json({ ...tokens, user: userDto });
     }
     catch (error) {
         return res.status(500).json({
@@ -73,31 +69,39 @@ export const getMe = async (req, res) => {
 };
 export const activate = async (req, res) => {
     try {
-        res.clearCookie('refreshToken');
+        const activationLink = req.params.link;
+        await UserService.activate(activationLink);
+        return res.redirect(process.env.API_URL || 'http://localhost/');
     }
     catch (error) {
-        return res.status(500).json({
-            message: 'Нет доступа'
-        });
+        console.log(error);
     }
 };
 export const refresh = async (req, res) => {
     try {
-        res.clearCookie('refreshToken');
+        const { refreshToken } = req.cookies;
+        const userData = await UserService.refresh(refreshToken);
+        res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+        return res.json(userData);
     }
     catch (error) {
         return res.status(500).json({
-            message: 'Нет доступа'
+            message: 'Нет доступа',
+            error
         });
     }
 };
 export const logout = async (req, res) => {
     try {
+        const { refreshToken } = req.cookies;
+        const token = await UserService.logout(refreshToken);
         res.clearCookie('refreshToken');
+        return res.json(token);
     }
     catch (error) {
         return res.status(500).json({
-            message: 'Нет доступа'
+            message: 'Нет доступа',
+            err: error
         });
     }
 };
