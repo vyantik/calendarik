@@ -13,7 +13,7 @@ export const createEvent = async (
 			res.status(400).json(errors.array());
 			return;
 		}
-		
+
 		const event = await Event.create({
 			title: req.body.title,
 			start: req.body.start,
