@@ -4,6 +4,7 @@ import { sequelize } from '../db.js';
 class User extends Model {
     email!: string;
     id!: number;
+    full_name!: string;
     isActivated!: boolean;
 };
 

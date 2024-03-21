@@ -1,0 +1,1 @@
+{"version":3,"file":"event-dto.js","sourceRoot":"","sources":["../../src/utils/event-dto.ts"],"names":[],"mappings":"AAEA,MAAM,QAAQ;IAIV,YAAY,KAAY;QACpB,IAAI,CAAC,EAAE,GAAG,KAAK,CAAC,EAAE,CAAC;QACnB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC,KAAK,CAAC;IAC7B,CAAC;CACJ;AAED,eAAe,QAAQ,CAAC"}

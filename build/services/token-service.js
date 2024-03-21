@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Token from '../models/Token.js';
+import * as dotenv from "dotenv";
+dotenv.config({ path: 'src/utils/.env' });
 class TokenService {
     static async generateTokens(payload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS, { expiresIn: '30m' });

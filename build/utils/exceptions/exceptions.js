@@ -1,22 +1,17 @@
 export default class ApiError extends Error {
-    status;
-    errors;
-
-    constructor(status: unknown, message: string, errors = []) {
+    constructor(status, message, errors = []) {
         super(message);
         this.status = status;
         this.errors = errors;
     }
-
     static UnauthorizedError() {
-        return new ApiError(401, 'Пользователь не авторизован')
+        return new ApiError(401, 'Пользователь не авторизован');
     }
-
-    static BadRequest(message: string, errors = []) {
+    static BadRequest(message, errors = []) {
         return new ApiError(400, message, errors);
     }
-
-    static NotFound(message: string, errors = []) {
+    static NotFound(message, errors = []) {
         return new ApiError(404, message, errors);
     }
 }
+//# sourceMappingURL=exceptions.js.map

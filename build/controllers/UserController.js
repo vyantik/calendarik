@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import UserService from "../services/user-service.js";
 import UserDto from "../utils/user-dto.js";
 import TokenService from "../services/token-service.js";
+import EventUser from "../models/EventUser.js";
+import EventService from "../services/event-service.js";
 export const register = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -104,5 +106,18 @@ export const logout = async (req, res) => {
             err: error
         });
     }
+};
+export const getAllSigned = async (req, res) => {
+    const eventUser = await EventUser.findAll({ where: {
+            user_id: req.body.id,
+            visited: true
+        } });
+    if (eventUser.length === 0 || !eventUser) {
+        res.status(404).json({
+            message: 'Не посетил мероприятий'
+        });
+    }
+    const events = await EventService.eventsById(eventUser);
+    res.json(events);
 };
 //# sourceMappingURL=UserController.js.map

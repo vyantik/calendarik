@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
+import EventUser from "../models/EventUser.js";
+import UserFal from "../utils/user-fal.js";
+import EventService from "../services/event-service.js";
 
 export const createEvent = async (
 	req: Request,
@@ -22,6 +25,16 @@ export const createEvent = async (
 			description: req.body.description,
 		});
 
+		const users = await User.findAll();;
+
+		const usersId = users.map(item => ({id: item.dataValues.id}));
+		usersId.forEach(item => {
+			EventUser.create({
+				event_id: event.dataValues.id,
+				user_id: item.id
+			});
+		}); 
+		
 		res.status(201).json({
 			...event.dataValues,
 		});
@@ -161,4 +174,21 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 			message: "Непредвиденная ошибка",
 		});
 	}
+};
+
+export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
+	const events = await EventUser.findAll({where: {
+		event_id: req.params.id
+	}});
+
+	if(events.length === 0){
+		res.status(404).json({
+			message: "Мероприятие не найдено",
+		});
+		return
+	}
+
+	const users: UserFal[] = await EventService.usersById(events);
+
+	res.json(users);
 };

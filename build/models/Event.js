@@ -12,13 +12,17 @@ Event.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    image_url: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    event_date: {
+    start: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    end: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    resource: {
+        type: DataTypes.JSON,
+        allowNull: true
     },
     description: {
         type: DataTypes.STRING,
@@ -44,6 +48,6 @@ Event.init({
     modelName: 'Event',
     tableName: 'events'
 });
-Event.sync();
+Event.sync({ force: true });
 export default Event;
 //# sourceMappingURL=Event.js.map
