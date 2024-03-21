@@ -179,13 +179,37 @@ export const getAllSigned = async (req: Request, res: Response): Promise<void> =
 	
 };
 
-
 export const signUp = async (req: Request, res: Response): Promise<void> => {
     try {
         const eventUser = await EventUser.create({
             event_id: req.body.event_id,
             user_id: req.body.user_id,
         });
+    
+        if(!eventUser) {
+            res.status(404).json({
+                message: 'Не удалось получить мероприятие'
+            })
+            return;
+        }
+    
+        res.json({
+            message: 'Упсех'
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: 'анлак'
+        })
+    }
+	
+};
+
+export const unsubscribe = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const eventUser = await EventUser.destroy({where: {
+            event_id: req.body.event_id,
+            user_id: req.body.user_id,
+        }});
     
         if(!eventUser) {
             res.status(404).json({

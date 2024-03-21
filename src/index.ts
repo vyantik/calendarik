@@ -41,6 +41,7 @@ app.get("/events/:id", EventsController.getAllUsers);
 app.get("/user/event/visited/:id", UserController.getAllVisited);
 app.get("/user/event/signup/:id", UserController.getAllSigned);
 app.post("/user/event/signup", UserController.signUp);
+app.delete("/user/event/signup", UserController.unsubscribe);
 app.delete("/events/:id", authChecker, EventsController.remove);
 app.patch("/events/:id",authChecker, eventValidation, EventsController.update);
 app.post("/events", authChecker, eventValidation, EventsController.createEvent);
