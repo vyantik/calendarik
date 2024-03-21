@@ -24,16 +24,6 @@ export const createEvent = async (
 			resource: req.body.resource,
 			description: req.body.description,
 		});
-
-		const users = await User.findAll();;
-
-		const usersId = users.map(item => ({id: item.dataValues.id}));
-		usersId.forEach(item => {
-			EventUser.create({
-				event_id: event.dataValues.id,
-				user_id: item.id
-			});
-		}); 
 		
 		res.status(201).json({
 			...event.dataValues,
@@ -178,10 +168,18 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
 	const events = await EventUser.findAll({where: {
-		event_id: req.params.id
+		event_id: req.params.id,
+		visited: true
 	}});
 
 	if(events.length === 0){
+		res.status(404).json({
+			message: "Никто не посетил",
+		});
+		return
+	}
+
+	if(!events){
 		res.status(404).json({
 			message: "Мероприятие не найдено",
 		});

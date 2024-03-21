@@ -37,12 +37,12 @@ app.get("/adm/getall", AdminController.getAll);
 app.patch("/adm/setVisited", AdminController.setVisited);
 
 app.get("/events", EventsController.getAll);
-app.get("/events/:id/users", EventsController.getAllUsers);
-app.get("/events/user/:id", UserController.getAllVisited);
-app.get("/events/:id", EventsController.getOne);
+app.get("/events/:id", EventsController.getAllUsers);
+app.get("/user/event/visited/:id", UserController.getAllVisited);
+app.get("/user/event/signup/:id", UserController.getAllSigned);
+app.post("/user/event/signup", UserController.signUp);
 app.delete("/events/:id", authChecker, EventsController.remove);
 app.patch("/events/:id",authChecker, eventValidation, EventsController.update);
-app.post("/events/:id/signup", authChecker, EventsController.signUp);
 app.post("/events", authChecker, eventValidation, EventsController.createEvent);
 
 app.listen(process.env.PORT, (err?: Error): void => {
