@@ -181,14 +181,26 @@ export const getAllSigned = async (req: Request, res: Response): Promise<void> =
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
     try {
+        const eventUserTest = await EventUser.findOne({where:{
+            event_id: req.body.event_id,
+            user_id: req.body.user_id,
+        }});
+
+        if(eventUserTest) {
+            res.status(409).json({
+                message: 'Уже записан'
+            });
+            return;
+        }
+
         const eventUser = await EventUser.create({
             event_id: req.body.event_id,
             user_id: req.body.user_id,
         });
-    
+        
         if(!eventUser) {
             res.status(404).json({
-                message: 'Не удалось получить мероприятие'
+                message: 'Не удалось записаться на мероприятие'
             })
             return;
         }
