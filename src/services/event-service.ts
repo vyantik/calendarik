@@ -24,14 +24,13 @@ class EventService {
 
     static async eventsById(eventsId: EventUser[]): Promise<EventDto[]> {
         const events: EventDto[] = [];
-
         for(const eventUser of eventsId){
-            const event = await Event.findByPk(eventUser.dataValues.user_id);
+            const event = await Event.findByPk(eventUser.dataValues.event_id);
 
+            console.log(eventUser.dataValues);
             if(!event){
-                throw ApiError.NotFound('Пользователь не найден');
+                throw ApiError.NotFound('Мероприятия не найден');
             }
-
             events.push(new EventDto(event));
         }
 

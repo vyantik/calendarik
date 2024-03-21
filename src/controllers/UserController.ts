@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import User from '../models/User.js';
+import Event from '../models/Event.js';
 import bcrypt from "bcrypt";
 import { Request, Response } from 'express';
 import UserService from "../services/user-service.js";
@@ -181,6 +182,17 @@ export const getAllSigned = async (req: Request, res: Response): Promise<void> =
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
     try {
+        const event = await Event.findOne({where:{
+            id: req.body.event_id
+        }});
+
+        if(!event){
+            res.status(404).json({
+                message: 'Такого мероприятия не существует'
+            });
+            return;
+        }
+
         const eventUserTest = await EventUser.findOne({where:{
             event_id: req.body.event_id,
             user_id: req.body.user_id,
@@ -197,7 +209,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
             event_id: req.body.event_id,
             user_id: req.body.user_id,
         });
-        
+
         if(!eventUser) {
             res.status(404).json({
                 message: 'Не удалось записаться на мероприятие'
@@ -210,6 +222,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
         })
     } catch (err) {
         res.status(500).json({
+            error: err,
             message: 'анлак'
         })
     }

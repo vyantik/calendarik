@@ -26,7 +26,6 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-
 app.post("/auth/login", loginValidation, UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);
 app.post("/auth/logout", UserController.logout);
