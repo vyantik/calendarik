@@ -5,6 +5,8 @@ import { Request, Response } from 'express';
 import UserService from "../services/user-service.js";
 import UserDto from "../utils/user-dto.js";
 import TokenService from "../services/token-service.js";
+import EventUser from "../models/EventUser.js";
+import EventService from "../services/event-service.js";
 
 
 export const register = async (req: Request, res: Response): Promise<Response> => {
@@ -126,4 +128,22 @@ export const logout = async (req: Request, res: Response) => {
             err: error
         });
     }
+};
+
+export const getAllVisited = async (req: Request, res: Response): Promise<void> => {
+	const eventUser = await EventUser.findAll({where: {
+        user_id: req.params.id,
+        visited: true
+    }});
+
+    if(eventUser.length === 0 || !eventUser){
+        res.status(404).json({
+            message: 'Не посетил мероприятий'
+        });
+        return;
+    }
+
+    const events = await EventService.eventsById(eventUser);
+
+    res.json(events);
 };

@@ -1,6 +1,8 @@
 import { validationResult } from "express-validator";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
+import EventUser from "../models/EventUser.js";
+import EventService from "../services/event-service.js";
 export const createEvent = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -10,9 +12,19 @@ export const createEvent = async (req, res) => {
         }
         const event = await Event.create({
             title: req.body.title,
-            event_date: req.body.event_date,
+            start: req.body.start,
+            end: req.body.end,
+            resource: req.body.resource,
             description: req.body.description,
-            image_url: req.body.image_url,
+        });
+        const users = await User.findAll();
+        ;
+        const usersId = users.map(item => ({ id: item.dataValues.id }));
+        usersId.forEach(item => {
+            EventUser.create({
+                event_id: event.dataValues.id,
+                user_id: item.id
+            });
         });
         res.status(201).json({
             ...event.dataValues,
@@ -114,9 +126,10 @@ export const update = async (req, res) => {
         }
         const event = await Event.update({
             title: req.body.title,
-            event_date: req.body.event_date,
+            start: req.body.start,
+            end: req.body.end,
+            resource: req.body.resource,
             description: req.body.description,
-            image_url: req.body.image_url,
         }, {
             where: { id: req.params.id },
         });
@@ -135,5 +148,18 @@ export const update = async (req, res) => {
             message: "Непредвиденная ошибка",
         });
     }
+};
+export const getAllUsers = async (req, res) => {
+    const events = await EventUser.findAll({ where: {
+            event_id: req.params.id
+        } });
+    if (events.length === 0) {
+        res.status(404).json({
+            message: "Мероприятие не найдено",
+        });
+        return;
+    }
+    const users = await EventService.usersById(events);
+    res.json(users);
 };
 //# sourceMappingURL=EventsController.js.map

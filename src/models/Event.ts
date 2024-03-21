@@ -1,7 +1,10 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../db.js';
 
-class Event extends Model { }
+class Event extends Model {
+    id!: number;
+    title!: string;
+ }
 
 Event.init({
     id: {
@@ -27,11 +30,6 @@ Event.init({
     },
     description: {
         type: DataTypes.STRING,
-        allowNull: true
-    },
-    partipitions: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        defaultValue: [],
         allowNull: true
     },
     createdAt: {

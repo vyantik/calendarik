@@ -34,8 +34,11 @@ app.get("/activate/:link", UserController.activate);
 app.get("/auth/refresh", UserController.refresh);
 
 app.get("/adm/getall", AdminController.getAll);
+app.patch("/adm/setVisited", AdminController.setVisited);
 
 app.get("/events", EventsController.getAll);
+app.get("/events/:id/users", EventsController.getAllUsers);
+app.get("/events/user/:id", UserController.getAllVisited);
 app.get("/events/:id", EventsController.getOne);
 app.delete("/events/:id", authChecker, EventsController.remove);
 app.patch("/events/:id",authChecker, eventValidation, EventsController.update);
