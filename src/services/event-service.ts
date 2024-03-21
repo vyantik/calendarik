@@ -27,10 +27,10 @@ class EventService {
         for(const eventUser of eventsId){
             const event = await Event.findByPk(eventUser.dataValues.event_id);
 
-            console.log(eventUser.dataValues);
             if(!event){
                 throw ApiError.NotFound('Мероприятия не найден');
             }
+            
             events.push(new EventDto(event));
         }
 

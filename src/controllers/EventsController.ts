@@ -167,26 +167,33 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
-	const events = await EventUser.findAll({where: {
-		event_id: req.params.id,
-		visited: true
-	}});
-
-	if(events.length === 0){
-		res.status(404).json({
-			message: "Никто не посетил",
+	try {
+		const events = await EventUser.findAll({where: {
+			event_id: req.params.id,
+			visited: true
+		}});
+	
+		if(events.length === 0){
+			res.status(404).json({
+				message: "Никто не посетил",
+			});
+			return
+		}
+	
+		if(!events){
+			res.status(404).json({
+				message: "Мероприятие не найдено",
+			});
+			return
+		}
+	
+		const users: UserFal[] = await EventService.usersById(events);
+	
+		res.json(users);
+	} catch (error) {
+		res.status(500).json({
+			message: 'Непредвиденная ошибка'
 		});
-		return
 	}
-
-	if(!events){
-		res.status(404).json({
-			message: "Мероприятие не найдено",
-		});
-		return
-	}
-
-	const users: UserFal[] = await EventService.usersById(events);
-
-	res.json(users);
+	
 };

@@ -150,7 +150,7 @@ export const getAllVisited = async (req: Request, res: Response): Promise<void> 
         res.json(events);
     } catch (error) {
         res.status(500).json({
-            message: 'анлак'
+            message: 'Непредвиденная ошибка'
         })
     }
 	
@@ -174,7 +174,7 @@ export const getAllSigned = async (req: Request, res: Response): Promise<void> =
         res.json(events);
     } catch (err) {
         res.status(500).json({
-            message: 'анлак'
+            message: 'Непредвиденная ошибка'
         })
     }
 	
@@ -218,12 +218,12 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
         }
     
         res.json({
-            message: 'Упсех'
+            message: 'Успешно'
         })
     } catch (err) {
         res.status(500).json({
             error: err,
-            message: 'анлак'
+            message: 'Непредвиденная ошибка'
         })
     }
 	
@@ -244,11 +244,11 @@ export const unsubscribe = async (req: Request, res: Response): Promise<void> =>
         }
     
         res.json({
-            message: 'Упсех'
+            message: 'Успешно'
         })
     } catch (err) {
         res.status(500).json({
-            message: 'анлак'
+            message: 'Непредвиденная ошибка'
         })
     }
 	
