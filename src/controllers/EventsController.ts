@@ -170,7 +170,6 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
 	try {
 		const events = await EventUser.findAll({where: {
 			event_id: req.params.id,
-			visited: true
 		}});
 	
 		if(events.length === 0){

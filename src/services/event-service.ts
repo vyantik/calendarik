@@ -16,7 +16,7 @@ class EventService {
                 throw ApiError.NotFound('Пользователь не найден');
             }
 
-            users.push(new UserFal(user));
+            users.push(new UserFal(user, event.dataValues.visited));
         }
 
         return users;

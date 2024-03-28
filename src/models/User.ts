@@ -44,7 +44,7 @@ User.init({
   },
   role: {
     type: DataTypes.STRING,
-    defaultValue: "User"
+    defaultValue: "user"
   },
   createdAt: {
     type: DataTypes.DATE,

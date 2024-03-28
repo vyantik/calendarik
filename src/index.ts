@@ -16,6 +16,7 @@ import * as UserController from "./controllers/UserController.js";
 import * as EventsController from "./controllers/EventsController.js";
 import * as AdminController from "./controllers/AdminController.js";
 import authChecker from "./utils/auth-checker.js";
+import { authorize } from "./utils/check-role.js";
 
 dotenv.config({path: 'src/utils/.env'});
 const app = express();
@@ -34,6 +35,7 @@ app.get("/auth/refresh", UserController.refresh);
 
 app.get("/adm/getall", AdminController.getAll);
 app.patch("/adm/setVisited", AdminController.setVisited);
+app.get('/test', authChecker, authorize(['user']));
 
 app.get("/events", EventsController.getAll);
 app.get("/events/:id", EventsController.getAllUsers);
