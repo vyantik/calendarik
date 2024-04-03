@@ -253,3 +253,24 @@ export const unsubscribe = async (req: Request, res: Response): Promise<void> =>
     }
 	
 };
+
+export const getPoints = async (req: Request, res: Response): Promise<void> => {
+	try {
+        const user = await User.findByPk(req.params.id);
+
+        if(!user){
+            res.status(404).json({
+                message: 'Пользователь не найден'
+            });
+            return;
+        }
+
+        res.json({
+            points: user.dataValues.points
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Непредвиденная ошибка'
+        });
+    }
+}
