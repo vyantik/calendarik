@@ -18,7 +18,7 @@ import * as AdminController from "./controllers/AdminController.js";
 import authChecker from "./utils/auth-checker.js";
 import { authorize } from "./utils/check-role.js";
 
-dotenv.config({path: 'src/utils/.env'});
+dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({
