@@ -19,4 +19,6 @@ export default class ApiError extends Error {
     static NotFound(message: string, errors = []) {
         return new ApiError(404, message, errors);
     }
+
+    
 }

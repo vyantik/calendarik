@@ -2,10 +2,13 @@ import jwt from 'jsonwebtoken';
 import Token from '../models/Token.js';
 import UserDto from '../utils/user-dto.js';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 class TokenService {
     static async generateTokens(payload: UserDto) {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS, {expiresIn: '30m'});
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH, {expiresIn: '30d'});
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS || "", {expiresIn: '30m'});
+        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH || "", {expiresIn: '30d'});
 
         return {
             accessToken,
@@ -15,7 +18,7 @@ class TokenService {
 
     static validateAccessToken(token: string){
         try {
-            const userData = jwt.verify(token, process.env.JWT_ACCESS);
+            const userData = jwt.verify(token, process.env.JWT_ACCESS || "");
             return userData;
         } catch(e) {
             return null;
@@ -24,7 +27,7 @@ class TokenService {
 
     static validateRefreshToken(token: string){
         try {
-            const userData = jwt.verify(token, process.env.JWT_REFRESH);
+            const userData = jwt.verify(token, process.env.JWT_REFRESH || "");
             return userData;
         } catch(e) {
             return null;

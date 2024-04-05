@@ -46,7 +46,16 @@ class UserService {
             throw Error('нет токена2');
         }
 
+        if(typeof userData === 'string'){
+            throw new Error('неправильный токен');
+        }
+
         const user = await User.findOne({where: {id: userData.id}})
+
+        if(!user){
+            throw new Error('Пользователь не найден');
+        }
+
         const userDto = new UserDto(user);
         
         const tokens = await TokenService.generateTokens({...userDto});
