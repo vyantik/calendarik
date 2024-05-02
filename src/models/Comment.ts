@@ -1,37 +1,30 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
 
-class Event extends Model {
+class Comment extends Model {
 	id!: number;
-	title!: string;
+	user_id!: number;
+	comment!: string;
 }
 
-Event.init(
+Comment.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		title: {
+		user_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		event_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		comment: {
 			type: DataTypes.STRING,
 			allowNull: false,
-		},
-		start: {
-			type: DataTypes.DATE,
-			allowNull: false,
-		},
-		end: {
-			type: DataTypes.DATE,
-			allowNull: false,
-		},
-		resource: {
-			type: DataTypes.JSON,
-			allowNull: true,
-		},
-		description: {
-			type: DataTypes.STRING,
-			allowNull: true,
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -46,11 +39,11 @@ Event.init(
 	},
 	{
 		sequelize,
-		modelName: "Event",
-		tableName: "events",
+		modelName: "Comment",
+		tableName: "comments",
 	},
 );
 
-Event.sync({ force: true });
+Comment.sync();
 
-export default Event;
+export default Comment;
