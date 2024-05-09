@@ -149,63 +149,6 @@ export const logout = async (req: Request, res: Response) => {
 	}
 };
 
-export const getAllVisited = async (
-	req: Request,
-	res: Response,
-): Promise<void> => {
-	try {
-		const eventUser = await EventUser.findAll({
-			where: {
-				user_id: req.params.id,
-				visited: true,
-			},
-		});
-
-		if (eventUser.length === 0 || !eventUser) {
-			res.status(404).json({
-				message: "Не посетил мероприятий",
-			});
-			return;
-		}
-
-		const events = await EventService.eventsById(eventUser);
-
-		res.json(events);
-	} catch (error) {
-		res.status(500).json({
-			message: "Непредвиденная ошибка",
-		});
-	}
-};
-
-export const getAllSigned = async (
-	req: Request,
-	res: Response,
-): Promise<void> => {
-	try {
-		const eventUser = await EventUser.findAll({
-			where: {
-				user_id: req.params.id,
-			},
-		});
-
-		if (eventUser.length === 0 || !eventUser) {
-			res.status(404).json({
-				message: "Не посетил мероприятий",
-			});
-			return;
-		}
-
-		const events = await EventService.eventsById(eventUser);
-
-		res.json(events);
-	} catch (err) {
-		res.status(500).json({
-			message: "Непредвиденная ошибка",
-		});
-	}
-};
-
 export const signUp = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const event = await Event.findOne({
@@ -448,6 +391,63 @@ export const getComments = async (
 			...comments_dto,
 		});
 	} catch (error) {
+		res.status(500).json({
+			message: "Непредвиденная ошибка",
+		});
+	}
+};
+
+export const getSignedEvents = async (
+	req: Request,
+	res: Response,
+): Promise<void> => {
+	try {
+		const eventUser = await EventUser.findAll({
+			where: {
+				user_id: req.params.id,
+			},
+		});
+
+		if (eventUser.length === 0 || !eventUser) {
+			res.status(404).json({
+				message: "Не посетил мероприятий",
+			});
+			return;
+		}
+
+		const events = await EventService.eventsById(eventUser);
+
+		res.json(events);
+	} catch (err) {
+		res.status(500).json({
+			message: "Непредвиденная ошибка",
+		});
+	}
+};
+
+export const getVisitedEvents = async (
+	req: Request,
+	res: Response,
+): Promise<void> => {
+	try {
+		const eventUser = await EventUser.findAll({
+			where: {
+				user_id: req.params.id,
+				visited: true,
+			},
+		});
+
+		if (eventUser.length === 0 || !eventUser) {
+			res.status(404).json({
+				message: "Не посетил мероприятий",
+			});
+			return;
+		}
+
+		const events = await EventService.eventsById(eventUser);
+
+		res.json(events);
+	} catch (err) {
 		res.status(500).json({
 			message: "Непредвиденная ошибка",
 		});

@@ -51,6 +51,6 @@ Event.init(
 	},
 );
 
-Event.sync({ force: true });
+Event.sync();
 
 export default Event;
