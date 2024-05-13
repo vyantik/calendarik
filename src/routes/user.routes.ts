@@ -4,8 +4,8 @@ import * as UserController from "../controllers/UserController.js";
 const userRouter = express.Router();
 
 userRouter.get("/:id", UserController.getPoints);
-userRouter.get("/events/signed", UserController.getSignedEvents);
-userRouter.get("/events/visited", UserController.getVisitedEvents);
+userRouter.get("/events/signed/:id", UserController.getSignedEvents);
+userRouter.get("/events/visited/:id", UserController.getVisitedEvents);
 userRouter.post("/event/signup", UserController.signUp);
 userRouter.delete("/event/signup", UserController.unsubscribe);
 
