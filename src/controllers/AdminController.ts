@@ -45,7 +45,7 @@ export const setVisited = async (
 			return;
 		}
 
-		const user = await User.findByPk(req.params.id);
+		const user = await User.findByPk(req.body.user_id);
 
 		if (!user) {
 			res.status(404).json({
