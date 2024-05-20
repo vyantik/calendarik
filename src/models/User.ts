@@ -6,6 +6,7 @@ class User extends Model {
 	id!: number;
 	full_name!: string;
 	isActivated!: boolean;
+	points!: number;
 }
 
 User.init(

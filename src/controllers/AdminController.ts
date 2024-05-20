@@ -55,7 +55,7 @@ export const setVisited = async (
 		}
 
 		user.update({
-			points: 5,
+			points: user.points + 5,
 		});
 
 		eventUser.update({
