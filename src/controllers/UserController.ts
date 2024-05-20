@@ -9,7 +9,6 @@ import TokenService from "../services/token-service.js";
 import EventUser from "../models/EventUser.js";
 import EventService from "../services/event-service.js";
 import Comment from "../models/Comment.js";
-import CommentService from "../services/comment-service.js";
 
 export const register = async (
 	req: Request,
@@ -359,36 +358,6 @@ export const deleteComment = async (
 
 		res.json({
 			...comment.dataValues,
-		});
-	} catch (error) {
-		res.status(500).json({
-			message: "Непредвиденная ошибка",
-		});
-	}
-};
-
-export const getComments = async (
-	req: Request,
-	res: Response,
-): Promise<void> => {
-	try {
-		const comments = await Comment.findAll({
-			where: {
-				event_id: req.body.event_id,
-			},
-		});
-
-		if (!comments) {
-			res.status(404).json({
-				message: "комментарии не найдены",
-			});
-			return;
-		}
-
-		const comments_dto = await CommentService.get_comments_dto(comments);
-
-		res.json({
-			...comments_dto,
 		});
 	} catch (error) {
 		res.status(500).json({

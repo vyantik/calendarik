@@ -22,5 +22,6 @@ eventsRouter.post(
 );
 eventsRouter.get("/visited/:id", EventsController.getAllVisited);
 eventsRouter.get("/signed/:id", EventsController.getAllSigned);
+eventsRouter.get("/comments", EventsController.getComments);
 
 export default eventsRouter;

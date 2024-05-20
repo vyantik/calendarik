@@ -10,7 +10,6 @@ userRouter.post("/event/signup", UserController.signUp);
 userRouter.delete("/event/signup", UserController.unsubscribe);
 
 userRouter.delete("/event/comment", UserController.deleteComment);
-userRouter.get("/event/comment", UserController.getComments);
 userRouter.post("/event/comment", UserController.addComment);
 
 export default userRouter;
