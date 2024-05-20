@@ -10,6 +10,8 @@ import authRouter from "./routes/auth.routes.js";
 import eventsRouter from "./routes/events.routes.js";
 import userRouter from "./routes/user.routes.js";
 
+import * as AdminController from "./controllers/AdminController.js";
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -27,8 +29,8 @@ app.use("/user", userRouter);
 
 //app.get("/activate/:link", UserController.activate);
 
-//app.get("/adm/getall", AdminController.getAll);
-//app.patch("/adm/setVisited", AdminController.setVisited);
+app.get("/adm/getall", AdminController.getAll);
+app.patch("/adm/setVisited", AdminController.setVisited);
 
 //app.get("/test", authChecker, authorize(["user"]));
 
