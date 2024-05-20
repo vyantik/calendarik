@@ -248,9 +248,7 @@ export const getComments = async (
 
 		const comments_dto = await CommentService.get_comments_dto(comments);
 
-		res.json({
-			...comments_dto,
-		});
+		res.json(comments_dto);
 	} catch (error) {
 		res.status(500).json({
 			message: "Непредвиденная ошибка",
