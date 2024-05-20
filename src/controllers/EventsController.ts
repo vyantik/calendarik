@@ -235,7 +235,7 @@ export const getComments = async (
 	try {
 		const comments = await Comment.findAll({
 			where: {
-				event_id: req.body.event_id,
+				event_id: req.params.id,
 			},
 		});
 
