@@ -311,7 +311,7 @@ export const addComment = async (
 
 		const comment = await Comment.create({
 			event_id: req.body.event_id,
-			user_id: req.body.user_id,
+			user_name: user.full_name,
 			comment: req.body.comment,
 		});
 

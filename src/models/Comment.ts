@@ -3,7 +3,7 @@ import { sequelize } from "../db.js";
 
 class Comment extends Model {
 	id!: number;
-	user_id!: number;
+	user_name!: string;
 	comment!: string;
 }
 
@@ -14,8 +14,8 @@ Comment.init(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		user_id: {
-			type: DataTypes.INTEGER,
+		user_name: {
+			type: DataTypes.STRING,
 			allowNull: false,
 		},
 		event_id: {
