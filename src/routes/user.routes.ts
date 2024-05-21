@@ -1,5 +1,6 @@
 import express from "express";
 import * as UserController from "../controllers/UserController.js";
+import * as ProductController from "../controllers/ProductController.js";
 
 const userRouter = express.Router();
 
@@ -11,5 +12,7 @@ userRouter.delete("/event/signup", UserController.unsubscribe);
 
 userRouter.delete("/event/comment", UserController.deleteComment);
 userRouter.post("/event/comment", UserController.addComment);
+
+userRouter.post("/product/buy", ProductController.buyProduct);
 
 export default userRouter;

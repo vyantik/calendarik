@@ -18,7 +18,7 @@ eventsRouter.post(
 	"/events/",
 	authChecker,
 	eventValidation,
-	EventsController.createEvent,
+	EventsController.create,
 );
 eventsRouter.get("/events/visited/:id", EventsController.getAllVisited);
 eventsRouter.get("/events/signed/:id", EventsController.getAllSigned);

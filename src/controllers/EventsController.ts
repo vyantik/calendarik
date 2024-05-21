@@ -7,10 +7,7 @@ import EventService from "../services/event-service.js";
 import Comment from "../models/Comment.js";
 import CommentService from "../services/comment-service.js";
 
-export const createEvent = async (
-	req: Request,
-	res: Response,
-): Promise<void> => {
+export const create = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
