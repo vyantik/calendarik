@@ -6,6 +6,7 @@ const adminRouter = express.Router();
 
 adminRouter.get("/adm/getall", AdminController.getAll);
 adminRouter.patch("/adm/setVisited", AdminController.setVisited);
+
 adminRouter.post("/adm/product", ProductController.create);
 adminRouter.patch("/adm/product/:id", ProductController.update);
 adminRouter.delete("/adm/product/:id", ProductController.remove);

@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/", eventsRouter);
-app.use("/user", userRouter);
+app.use("/", userRouter);
 app.use("/", adminRouter);
 //app.get("/activate/:link", UserController.activate);
 

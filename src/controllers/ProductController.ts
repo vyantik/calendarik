@@ -116,3 +116,17 @@ export const buyProduct = async (
 		});
 	}
 };
+
+export const getAll = async (req: Request, res: Response): Promise<void> => {
+	try {
+		const products = await Product.findAll();
+
+		res.json(products);
+	} catch (error) {
+		console.log(error);
+
+		res.status(500).json({
+			message: "Не удалось получить пользователей",
+		});
+	}
+};
