@@ -35,7 +35,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
 		await product.destroy();
 
 		res.json({
-			message: "Успех",
+			success: true,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -65,7 +65,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 		}
 
 		res.json({
-			message: "Успех",
+			success: true,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -108,7 +108,7 @@ export const buyProduct = async (
 			points: user.points - product.price,
 		});
 		res.status(200).json({
-			message: "Успех",
+			success: true,
 		});
 	} catch (error) {
 		res.status(500).json({

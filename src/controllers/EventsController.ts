@@ -6,6 +6,7 @@ import UserFal from "../utils/user-fal.js";
 import EventService from "../services/event-service.js";
 import Comment from "../models/Comment.js";
 import CommentService from "../services/comment-service.js";
+import UserService from "../services/user-service.js";
 
 export const create = async (req: Request, res: Response): Promise<void> => {
 	try {
@@ -68,19 +69,12 @@ export const getOne = async (req: Request, res: Response): Promise<void> => {
 export const remove = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const event = await Event.findByPk(req.params.id);
-		const eventUsers = await EventUser.findAll({
-			where: { event_id: req.params.id },
-		});
 
 		if (!event) {
 			res.status(404).json({
 				message: "Событие не найдено",
 			});
 			return;
-		}
-
-		for (const eventUser of eventUsers) {
-			await eventUser.destroy();
 		}
 
 		await event.destroy();
@@ -158,7 +152,7 @@ export const getAllUsers = async (
 			return;
 		}
 
-		const users: UserFal[] = await EventService.usersById(events);
+		const users: UserFal[] = await UserService.usersById(events);
 
 		res.json(users);
 	} catch (error) {

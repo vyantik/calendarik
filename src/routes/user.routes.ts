@@ -1,19 +1,36 @@
 import express from "express";
 import * as UserController from "../controllers/UserController.js";
 import * as ProductController from "../controllers/ProductController.js";
+import authChecker from "../utils/auth-checker.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/user/:id", UserController.getPoints);
-userRouter.get("/user/events/signed/:id", UserController.getSignedEvents);
-userRouter.get("/user/events/visited/:id", UserController.getVisitedEvents);
-userRouter.post("/user/event/signup", UserController.signUp);
-userRouter.delete("/user/event/signup", UserController.unsubscribe);
+userRouter.get("/user/:id", authChecker, UserController.getPoints);
+userRouter.get(
+	"/user/events/signed/:id",
+	authChecker,
+	UserController.getSignedEvents,
+);
+userRouter.get(
+	"/user/events/visited/:id",
+	authChecker,
+	UserController.getVisitedEvents,
+);
+userRouter.post("/user/event/signup", authChecker, UserController.signUp);
+userRouter.delete(
+	"/user/event/signup",
+	authChecker,
+	UserController.unsubscribe,
+);
 
-userRouter.delete("/user/event/comment", UserController.deleteComment);
-userRouter.post("/user/event/comment", UserController.addComment);
+userRouter.delete(
+	"/user/event/comment",
+	authChecker,
+	UserController.deleteComment,
+);
+userRouter.post("/user/event/comment", authChecker, UserController.addComment);
 
-userRouter.post("/product/buy", ProductController.buyProduct);
-userRouter.get("/products", ProductController.getAll);
+userRouter.post("/product/buy", authChecker, ProductController.buyProduct);
+userRouter.get("/products", authChecker, ProductController.getAll);
 
 export default userRouter;

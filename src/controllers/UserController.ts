@@ -355,10 +355,6 @@ export const deleteComment = async (
 		res.json({
 			success: true,
 		});
-
-		res.json({
-			...comment.dataValues,
-		});
 	} catch (error) {
 		res.status(500).json({
 			message: "Непредвиденная ошибка",

@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
+import EventUser from "./EventUser.js";
+import Token from "./Token.js";
 
 class User extends Model {
 	email!: string;
@@ -66,6 +68,8 @@ User.init(
 	},
 );
 
+User.hasMany(EventUser, { foreignKey: "user_id" });
+User.hasMany(Token, { foreignKey: "user_id" });
 User.sync();
 
 export default User;

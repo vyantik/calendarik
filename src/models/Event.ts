@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
+import EventUser from "./EventUser.js";
+import Comment from "./Comment.js";
 
 class Event extends Model {
 	id!: number;
@@ -51,6 +53,8 @@ Event.init(
 	},
 );
 
+Event.hasMany(EventUser, { foreignKey: "event_id", onDelete: "CASCADE" });
+Event.hasMany(Comment, { foreignKey: "event_id", onDelete: "CASCADE" });
 Event.sync();
 
 export default Event;

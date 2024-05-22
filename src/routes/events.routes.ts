@@ -5,8 +5,8 @@ import authChecker from "../utils/auth-checker.js";
 
 const eventsRouter = express.Router();
 
-eventsRouter.get("/events", EventsController.getAll);
-eventsRouter.get("/events/:id", EventsController.getAllUsers);
+eventsRouter.get("/events", authChecker, EventsController.getAll);
+eventsRouter.get("/events/:id", authChecker, EventsController.getAllUsers);
 eventsRouter.delete("/events/:id", authChecker, EventsController.remove);
 eventsRouter.patch(
 	"/events/:id",
@@ -20,8 +20,20 @@ eventsRouter.post(
 	eventValidation,
 	EventsController.create,
 );
-eventsRouter.get("/events/visited/:id", EventsController.getAllVisited);
-eventsRouter.get("/events/signed/:id", EventsController.getAllSigned);
-eventsRouter.get("/events/comments/:id", EventsController.getComments);
+eventsRouter.get(
+	"/events/visited/:id",
+	authChecker,
+	EventsController.getAllVisited,
+);
+eventsRouter.get(
+	"/events/signed/:id",
+	authChecker,
+	EventsController.getAllSigned,
+);
+eventsRouter.get(
+	"/events/comments/:id",
+	authChecker,
+	EventsController.getComments,
+);
 
 export default eventsRouter;

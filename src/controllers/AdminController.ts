@@ -63,7 +63,7 @@ export const setVisited = async (
 		});
 
 		res.status(200).json({
-			message: "Изменено",
+			success: true,
 		});
 	} catch (error) {
 		res.status(500).json({
