@@ -62,7 +62,9 @@ export const setVisited = async (
 			},
 		});
 
-		const pointsDiff = (visitedEvenets.length * 100) / (await Event.count());
+		const pointsDiff = Math.floor(
+			(visitedEvenets.length * 100) / (await Event.count()),
+		);
 
 		user.update({
 			points: pointsDiff,
