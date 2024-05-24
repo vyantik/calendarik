@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/User.js";
 import EventUser from "../models/EventUser.js";
+import Event from "../models/Event.js";
 
 export const getAll = async (req: Request, res: Response): Promise<void> => {
 	try {
@@ -54,8 +55,17 @@ export const setVisited = async (
 			return;
 		}
 
+		const visitedEvenets = await EventUser.findAll({
+			where: {
+				user_id: req.body.user_id,
+				visited: true,
+			},
+		});
+
+		const pointsDiff = (visitedEvenets.length * 100) / (await Event.count());
+
 		user.update({
-			points: user.points + 5,
+			points: pointsDiff,
 		});
 
 		eventUser.update({
