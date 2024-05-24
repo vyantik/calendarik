@@ -418,3 +418,28 @@ export const getVisitedEvents = async (
 		});
 	}
 };
+
+export const getLeaderboard = async (
+	req: Request,
+	res: Response,
+): Promise<void> => {
+	try {
+		const users = await User.findAll({
+			order: [["points", "DESC"]],
+			limit: 100,
+		});
+
+		const usersName = users.map((user) => ({
+			name: user.full_name,
+			points: user.points,
+		}));
+
+		res.json(usersName);
+	} catch (err) {
+		console.log(err);
+
+		res.status(500).json({
+			message: "Непредвиденная ошибка",
+		});
+	}
+};

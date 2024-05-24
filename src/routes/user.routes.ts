@@ -32,5 +32,6 @@ userRouter.post("/user/event/comment", authChecker, UserController.addComment);
 
 userRouter.post("/product/buy", authChecker, ProductController.buyProduct);
 userRouter.get("/products", authChecker, ProductController.getAll);
+userRouter.get("/leaderboard", UserController.getLeaderboard);
 
 export default userRouter;

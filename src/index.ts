@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import * as dotenv from "dotenv";
 import cli from "cli-color";
 
 import authRouter from "./routes/auth.routes.js";
@@ -11,8 +10,11 @@ import eventsRouter from "./routes/events.routes.js";
 import userRouter from "./routes/user.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 
+import * as dotenv from "dotenv";
 dotenv.config();
+
 const app = express();
+
 app.use(express.json());
 app.use(
 	cors({

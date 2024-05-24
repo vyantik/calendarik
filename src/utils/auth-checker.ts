@@ -23,7 +23,7 @@ export default function (
 		if (!userData) {
 			return next(ApiError.UnauthorizedError());
 		}
-		req;
+
 		req.user = userData;
 		next();
 	} catch (e) {
